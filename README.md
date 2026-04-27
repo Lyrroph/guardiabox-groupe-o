@@ -6,6 +6,10 @@ Version 1.0.0 | Python 3.8+ | Projet DevSecOps
 
 ## Description
 
+Bonjour ! On a décidé dans le README de vous faire une présentation complète avec tout ce qu'il faut pour le faire fonctionner comment elle fonctionne à quoi elle ressemble etc pour comprendre l'application et avoir un guide complet!
+Cordialement,
+Léopold CASTEL-GAY et Diego DELGADO
+
 GuardiaBox est une application de chiffrement développée en Python qui utilise les standards cryptographiques actuels pour protéger vos fichiers et messages : AES-256-GCM pour le chiffrement et PBKDF2 pour la dérivation de clés.
 
 Le projet propose deux interfaces :
