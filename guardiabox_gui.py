@@ -2,7 +2,9 @@
 """
 GuardiaBox GUI - Interface Graphique Complète
 
-Lance cette application avec: python main_gui.py
+Diego DELGADO & Léopold CASTEL-GAY - Groupe O
+
+Lance cette application avec: python guardiabox_gui.py
 """
 
 import tkinter as tk
@@ -224,7 +226,8 @@ class GuardiaBoxApp:
 • Validation stricte des entrées
 
 👨‍💻 CRÉDITS
-Développé par : Diego & Léopold
+Développé par : Diego DELGADO & Léopold CASTEL-GAY
+Groupe O - Bachelor 2ème année
 
 © 2026 GuardiaBox - Projet DevSecOps
 Gaming Campus - Bachelor 2ème année

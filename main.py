@@ -5,7 +5,7 @@ GuardiaBox - Coffre-fort numérique sécurisé en ligne de commande.
 Application CLI permettant de chiffrer et déchiffrer des fichiers ou
 des messages de manière sécurisée en utilisant AES-GCM et PBKDF2
 
-Diego et Léopold
+Diego DELGADO et Léopold CASTEL-GAY - Groupe O
 Date: 20 avril 2026
 """
 
