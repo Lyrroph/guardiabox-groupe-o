@@ -50,6 +50,11 @@ from security import (
     evaluer_force_mot_de_passe
 )
 
+from database import AuditLogger
+
+# Initialiser le logger d'audit
+audit_logger = AuditLogger()
+
 
 def demander_mot_de_passe_valide(prompt: str, mode_strict: bool = True) -> str:
     """
@@ -122,6 +127,13 @@ def chiffrer_fichier_menu():
         fichier_chiffre = chiffrer_fichier(nom_fichier, mot_de_passe)
         
         taille = obtenir_taille_fichier(fichier_chiffre)
+        
+        # Enregistrer l'opération dans la BDD
+        try:
+            audit_logger.log_encryption(nom_fichier, taille, success=True)
+        except Exception:
+            pass  # Ne pas bloquer si la BDD échoue
+        
         afficher_succes("Fichier chiffré avec succès !")
         afficher_fichier_genere(fichier_chiffre, taille)
         
@@ -198,6 +210,13 @@ def dechiffrer_fichier_menu():
         fichier_dechiffre = dechiffrer_fichier(nom_fichier, mot_de_passe)
         
         taille = obtenir_taille_fichier(fichier_dechiffre)
+        
+        # Enregistrer l'opération dans la BDD
+        try:
+            audit_logger.log_decryption(nom_fichier, success=True)
+        except Exception:
+            pass  # Ne pas bloquer si la BDD échoue
+        
         afficher_succes("Fichier déchiffré avec succès !")
         afficher_fichier_genere(fichier_dechiffre, taille)
         
@@ -283,6 +302,12 @@ def menu_dechiffrement():
 
 def quitter():
     """Quitte l'application proprement."""
+    # Fermer la connexion à la BDD
+    try:
+        audit_logger.close()
+    except Exception:
+        pass
+    
     afficher_message_sortie()
     sys.exit(0)
 

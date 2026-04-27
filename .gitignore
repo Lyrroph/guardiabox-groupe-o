@@ -40,6 +40,10 @@ htmlcov/
 *.crypt
 *.decrypt
 
+# Base de données d'audit (données locales)
+*.db
+guardiabox_audit.db
+
 # OS
 .DS_Store
 Thumbs.db

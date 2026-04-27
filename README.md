@@ -6,7 +6,11 @@ Version 1.0.0 | Python 3.8+ | Projet DevSecOps
 
 ## Description
 
-GuardiaBox est une application de chiffrement développée en Python qui utilise les standards cryptographiques actuels pour protéger vos fichiers et messages : AES-256-GCM pour le chiffrement et PBKDF2 pour la dérivation de clés.
+On a décidé dans le README de vous faire une présentation complète avec tout ce qu'il faut etc pour comprendre l'application et comment elle fonctionne...
+
+Léopold CASTEL-GAY et Diego DELGADO
+
+GuardiaBox est une application de chiffrement développée en Python qui utilise les standards cryptographiques actuels pour protéger les fichiers et messages : AES-256-GCM pour le chiffrement et PBKDF2 pour la dérivation de clés.
 
 Le projet propose deux interfaces :
 - **CLI (ligne de commande)** : L'interface principale, légère et puissante
@@ -40,7 +44,7 @@ Le projet propose deux interfaces :
    pip install -r requirements.txt
    ```
 
-3. **Linux/macOS uniquement** : Rendre le script exécutable :
+3. **Linux** : Rendre le script exécutable :
    ```bash
    chmod +x guardiabox
    ```
@@ -225,10 +229,52 @@ python -m pytest tests/test_fileio.py -v
 
 ### Couverture
 
-- 51 tests au total
+- 65 tests au total
 - 22 tests pour le module `security/`
 - 29 tests pour le module `fileio/`
+- 14 tests pour le module `database/`
 - Tous les tests passent
+
+---
+
+## Base de Données d'Audit (Optionnelle)
+
+GuardiaBox intègre un système de **journal d'audit sécurisé** utilisant SQLite pour tracer les opérations sans compromettre la confidentialité.
+
+### Fonctionnalités
+
+- **Historique des opérations** : Trace automatique des chiffrements/déchiffrements
+- **Statistiques** : Nombre total d'opérations, volume chiffré
+- **Métadonnées hachées** : Les noms de fichiers sont hachés en SHA-256 avant stockage
+- **Aucune donnée sensible** : Les mots de passe ne sont JAMAIS stockés
+- **Effacement complet** : Possibilité d'effacer tout l'historique
+
+### Sécurité de la BDD
+
+| Donnée | Stockage |
+|--------|----------|
+| Noms de fichiers | Hachés (SHA-256) |
+| Mots de passe | ❌ JAMAIS stockés |
+| Dates/heures | Horodatage ISO 8601 |
+| Tailles de fichiers | Oui (en octets) |
+| Type d'opération | encrypt / decrypt |
+
+### Fichier de base de données
+
+- **Nom** : `guardiabox_audit.db`
+- **Emplacement** : Dossier de travail actuel
+- **Format** : SQLite 3
+- **Taille** : Minimale (quelques Ko)
+
+La base de données est créée automatiquement au premier lancement et n'est **jamais commitée** dans Git (exclue par `.gitignore`).
+
+### Principe "Zero Knowledge"
+
+Même en cas d'accès à la base de données, un attaquant ne pourrait :
+- ❌ Récupérer les mots de passe (non stockés)
+- ❌ Identifier les fichiers (noms hachés)
+- ❌ Lire le contenu chiffré (stocké séparément)
+- ✅ Voir uniquement : nombre d'opérations et dates
 
 ---
 
@@ -245,12 +291,17 @@ guardiabox/
 │   ├── file_operations.py       Opérations fichiers
 │   └── crypto_file.py           Chiffrement fichiers
 │
+├── database/                    Module audit (optionnel)
+│   ├── db_manager.py            Gestionnaire SQLite
+│   └── audit_log.py             Journal d'audit
+│
 ├── ui/                          Module interface
 │   └── cli_interface.py         Interface CLI
 │
 ├── tests/                       Tests unitaires
 │   ├── test_security.py         22 tests
-│   └── test_fileio.py           29 tests
+│   ├── test_fileio.py           29 tests
+│   └── test_database.py         14 tests
 │
 ├── main.py                      Application CLI (PRINCIPALE)
 ├── guardiabox                   Script exécutable Linux
@@ -283,21 +334,17 @@ guardiabox/
 
 Développé par Diego DELGADO et Léopold CASTEL-GAY
 
-Projet : Bachelor 2ème année - DevSecOps  
-École : Gaming Campus  
-Date : 20 avril 2026  
+ 
 
 ---
 
-## Licence
 
-© 2026 GuardiaBox - Projet éducatif DevSecOps
 
 ---
 
 ## Contexte du Projet
 
-Ce projet a été réalisé dans le cadre du Bachelor DevSecOps au Gaming Campus. Il couvre plusieurs aspects de la sécurité applicative :
+
 
 - Cryptographie appliquée (AES, PBKDF2)
 - Développement d'interfaces graphiques (tkinter)
@@ -334,4 +381,4 @@ python -m pytest tests/ -v
 
 ---
 
-GuardiaBox - Application de chiffrement sécurisée
+

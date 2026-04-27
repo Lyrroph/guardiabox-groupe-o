@@ -16,6 +16,7 @@ from fileio import (
     verifier_existence_fichier, obtenir_taille_fichier,
     ChiffrementFichierError, DechiffrementFichierError
 )
+from database import AuditLogger
 
 
 class GuardiaBoxApp:
@@ -29,6 +30,9 @@ class GuardiaBoxApp:
         # Couleurs
         self.bg_color = "#2C3E50"
         self.fg_color = "white"
+        
+        # Initialiser le logger d'audit
+        self.audit_logger = AuditLogger()
         
         self.creer_interface()
         self.centrer_fenetre()
@@ -338,6 +342,12 @@ Gaming Campus - Bachelor 2ème année
                 fichier_chiffre = chiffrer_fichier(fichier, mdp)
                 taille = obtenir_taille_fichier(fichier_chiffre)
                 
+                # Enregistrer dans la BDD
+                try:
+                    self.audit_logger.log_encryption(fichier, taille, success=True)
+                except Exception:
+                    pass  # Ne pas bloquer si la BDD échoue
+                
                 messagebox.showinfo(
                     "✅ Succès",
                     f"Fichier chiffré avec succès !\n\n"
@@ -387,6 +397,12 @@ Gaming Campus - Bachelor 2ème année
                 # Mode fichier
                 fichier_dechiffre = dechiffrer_fichier(fichier, mdp)
                 taille = obtenir_taille_fichier(fichier_dechiffre)
+                
+                # Enregistrer dans la BDD
+                try:
+                    self.audit_logger.log_decryption(fichier, success=True)
+                except Exception:
+                    pass  # Ne pas bloquer si la BDD échoue
                 
                 messagebox.showinfo(
                     "✅ Succès",
