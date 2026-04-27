@@ -1,0 +1,12 @@
+# Préserver les permissions d'exécution pour les scripts
+guardiabox text eol=lf
+*.sh text eol=lf
+
+# Fichiers Windows
+*.bat text eol=crlf
+
+# Fichiers Python
+*.py text eol=lf
+
+# Fichiers Markdown
+*.md text eol=lf

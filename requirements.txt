@@ -1,0 +1,9 @@
+# Dépendances du projet GuardiaBox
+# Date: 20 avril 2026
+
+# Bibliothèque cryptographique principale
+cryptography>=42.0.0
+
+# Tests unitaires
+pytest>=8.0.0
+pytest-cov>=4.1.0
